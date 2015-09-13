@@ -1,0 +1,50 @@
+=====
+DETECTED SUITES
+test_cases/python
+test_cases/c
+=====
+-----
+DETECTED TESTS
+test_cases/python/test_1
+-----
+Missing config.
+-----
+DETECTED TESTS
+test_cases/c/test_2
+test_cases/c/test_1
+-----
+{:file_path=>"test_cases/c/test_2/Makefile", :args=>"./file.so", :redirect_file_path=>nil, :make_target=>"vm"}
+~~~~~
+CONTROL
+command: sh -c 'cd test_cases/c/test_2; ./vm ./file.so'
+256
+VMMain opening test.txt
+VMMain VMFileOpen returned 3
+VMMain writing file
+VMMain VMFileWrite returned 13
+VMMain seeking file
+VMMain VMFileSeek offset at 6
+VMMain reading file
+VMMain VMFileRead returned 7
+VMMain read in "world!
+"
+VMMain closing file
+Goodbye
+~~~~~
+=====
+TEST
+{:file_path=>"test_cases/c/test_2/Makefile", :args=>"./file.so", :redirect_file_path=>nil, :make_target=>"vm", :user_id=>"", :access_token=>"", :type=>"temp", "name"=>"3fc486360c611e5a2c0d80fe6f29978de3363e6a", :stdin=>nil}
+VMMain opening test.txt
+VMMain VMFileOpen returned 3
+VMMain writing file
+VMMain VMFileWrite returned 13
+VMMain seeking file
+VMMain VMFileSeek offset at 6
+VMMain read in "world!
+"
+VMMain closing file
+Goodbye
+207
+=====
+0/1 PASSED
+Missing config.

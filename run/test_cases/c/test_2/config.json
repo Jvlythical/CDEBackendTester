@@ -1,0 +1,7 @@
+{
+	"main" : "/Makefile",
+	"args" : ["./sleep.so"],
+	"test" : "vm",
+	"make" : "vm",
+	"language" : "c"
+}

@@ -1,0 +1,17 @@
+{
+	"java" : {
+		"compile" : "javac",
+		"execute" : "java "
+	},
+	"python" : {
+		"execute" : "/opt/python3/bin/python3 "
+	},
+	"c" : {
+		"compile" : "gcc -Wall",
+		"execute" : "./"
+	},
+	"c++" : {
+		"compile" : "gcc -Wall",
+		"execute" : "./"
+	}
+}

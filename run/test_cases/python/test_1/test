@@ -1,0 +1,7 @@
+
+#!/opt/python3/bin/python3
+
+str = input("HIII")
+print(str)
+str = input("HIII")
+print(str)

@@ -1,0 +1,6 @@
+{
+	"main" : "/test.py",
+	"inputs" : ["stdin"],
+	"test" : "test.py",
+	"language" : "python"
+}
