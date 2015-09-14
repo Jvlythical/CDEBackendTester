@@ -21,8 +21,10 @@ module RunTester
 	@poll = 'http://localhost:3000/compile/poll'
 
 	@debug = true
-	@expect = nil
+
 	@params = nil
+	@expected_stdout = nil
+	@expected_stderr = nil
 	@const_params = {
 		:user_id => '',
 		:access_token => '',
@@ -56,6 +58,7 @@ module RunTester
 			
 			# Generate output
 			stdout = output['stdout']
+			stderr = output['stderr']
 			
 			out.print_params(@params) if @debug
 
@@ -68,6 +71,7 @@ module RunTester
 				output = JSON.parse(output)
 
 				stdout = output['stdout']
+				stderr = output['stderr']
 			end
 			
 			# If the program hasn't finished
@@ -79,17 +83,22 @@ module RunTester
 				output = JSON.parse(output)
 
 				stdout = output['stdout']
+				stderr = output['stderr']
 			end
 
 			out.print_cde_out(stdout) if @debug
+			out.print_cde_err(stderr) if @debug
 				
 			# If output equals expected
 			# then increment the success count
 			# else increment the failure count
-			if stdout.strip != @expect.strip
-				failure.push(stdout)
-			else
+			same_stdout = stdout == @expected_stdout
+			same_stderr = stderr == @expected_stderr
+
+			if same_stdout and same_stderr
 				success.push(stdout)
+			else
+				failure.push(stdout)
 			end
 
 		end
@@ -154,7 +163,9 @@ module RunTester
 		stdout, stderr, status = Open3.capture3(cmd)
 		stdout.encode('UTF-16', :invalid => :replace, :undefined => :replace, replace: "")
 
-		@expect = stdout
+		@expected_stdout = stdout
+		@expected_stderr = stderr
+
 		out.print_control_out(cmd, stdout, stderr) if @debug
 	end
 
@@ -226,6 +237,13 @@ module RunTester
 			puts ''
 			puts '~ cde stdout'
 			puts output
+			puts ''
+		end
+
+		def print_cde_err(error)
+			puts ''
+			puts '~ cde stderr'
+			puts error
 			puts ''
 		end
 

@@ -1,7 +1,7 @@
 {
 	"container" : "51421a9ef5c7ba436d301b4a06d68fd7df843582",
 	"run" : {
-		"ignore" : ["java"],
+		"ignore" : [],
 		"languages" : {
 			"java" : {
 				"compile" : "javac",
@@ -22,6 +22,6 @@
 	},
 	"options" : {
 		"verbose" : true,
-		"verbose+" : false
+		"verbose+" : true
 	}
 }

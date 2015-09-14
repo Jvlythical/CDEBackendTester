@@ -1,0 +1,351 @@
+DETECTED SUITES
+run/test_cases/java
+run/test_cases/python
+run/test_cases/c++
+run/test_cases/c
+
+=====
+
+- DETECTED TESTS
+run/test_cases/java
+
+TESTING run/test_cases/java/test_1
+
+DESCRIPTION Testing running java program with args
+
+~ compiling
+make
+
+CONTROL
+~ command
+sh -c 'cd run/test_cases/java/test_1; java HelloWorld 100'
+
+~ local stdout 
+100
+
+TEST
+{:file_path=>"run/test_cases/java/test_1/HelloWorld.java", :args=>"100", :redirect_file_path=>"", :make_target=>nil, :user_id=>"", :access_token=>"", :type=>"temp", "name"=>"51421a9ef5c7ba436d301b4a06d68fd7df843582", :stdin=>nil}
+
+~ cde stdout
+100
+
+
+~ cde stderr
+
+
+~ RESULTS
+run/test_cases/java/test_1 => 1/1 PASSED
+
+=====
+
+- DETECTED TESTS
+run/test_cases/python
+
+TESTING run/test_cases/python/test_1
+
+DESCRIPTION Testing user input
+
+CONTROL
+~ command
+sh -c 'cd run/test_cases/python/test_1; /opt/python3/bin/python3 test.py < stdin'
+
+~ local stdout 
+HIIIHI
+HIIIBYE
+
+TEST
+{:file_path=>"run/test_cases/python/test_1/test.py", :args=>nil, :redirect_file_path=>"run/test_cases/python/test_1/stdin", :make_target=>nil, :user_id=>"", :access_token=>"", :type=>"temp", "name"=>"51421a9ef5c7ba436d301b4a06d68fd7df843582", :stdin=>nil}
+
+~ cde stdout
+HIIIHI
+HIIIBYE
+
+
+~ cde stderr
+
+
+~ RESULTS
+run/test_cases/python/test_1 => 1/1 PASSED
+
+TEST
+{:file_path=>"run/test_cases/python/test_1/test.py", :args=>nil, :make_target=>nil, :user_id=>"", :access_token=>"", :type=>"temp", "name"=>"51421a9ef5c7ba436d301b4a06d68fd7df843582", :stdin=>nil}
+Inputting: HI
+Inputting: BYE
+
+~ cde stdout
+HIIIHI
+HIIIBYE
+
+
+~ cde stderr
+
+
+~ RESULTS
+run/test_cases/python/test_1 => 1/1 PASSED
+
+=====
+
+- DETECTED TESTS
+run/test_cases/c++
+
+TESTING run/test_cases/c++/test_2
+
+DESCRIPTION Expecting case with args = 3 to fail
+
+~ compiling
+sh -c 'cd run/test_cases/c++/test_2; g++ -Wall test.cpp'
+
+CONTROL
+~ command
+sh -c 'cd run/test_cases/c++/test_2; ./a.out 1 2 < stdin'
+
+~ local stdout 
+Please enter a string: 
+MOOOOOOO
+3
+1
+
+TEST
+{:file_path=>"run/test_cases/c++/test_2/test.cpp", :args=>"1 2", :redirect_file_path=>"run/test_cases/c++/test_2/stdin", :make_target=>nil, :user_id=>"", :access_token=>"", :type=>"temp", "name"=>"51421a9ef5c7ba436d301b4a06d68fd7df843582", :stdin=>nil}
+
+~ cde stdout
+Please enter a string: 
+MOOOOOOO
+3
+1
+
+
+~ cde stderr
+
+
+~ RESULTS
+run/test_cases/c++/test_2 => 1/1 PASSED
+
+TEST
+{:file_path=>"run/test_cases/c++/test_2/test.cpp", :args=>"1 2", :make_target=>nil, :user_id=>"", :access_token=>"", :type=>"temp", "name"=>"51421a9ef5c7ba436d301b4a06d68fd7df843582", :stdin=>nil}
+Inputting: MOOOOOOO
+
+~ cde stdout
+Please enter a string: 
+MOOOOOOO
+3
+1
+
+
+~ cde stderr
+
+
+~ RESULTS
+run/test_cases/c++/test_2 => 1/1 PASSED
+
+~ compiling
+sh -c 'cd run/test_cases/c++/test_2; g++ -Wall test.cpp'
+
+CONTROL
+~ command
+sh -c 'cd run/test_cases/c++/test_2; ./a.out 3'
+
+~ local stdout 
+Please enter a string: 
+
+2
+3
+
+TEST
+{:file_path=>"run/test_cases/c++/test_2/test.cpp", :args=>"3", :redirect_file_path=>"", :make_target=>nil, :user_id=>"", :access_token=>"", :type=>"temp", "name"=>"51421a9ef5c7ba436d301b4a06d68fd7df843582", :stdin=>nil}
+
+~ cde stdout
+Please enter a string: 
+
+
+~ cde stderr
+
+
+~ RESULTS
+run/test_cases/c++/test_2 => 0/1 PASSED
+
+TESTING run/test_cases/c++/test_1
+
+DESCRIPTION Testing c++ with input file
+
+~ compiling
+sh -c 'cd run/test_cases/c++/test_1; g++ -Wall test.cpp'
+
+CONTROL
+~ command
+sh -c 'cd run/test_cases/c++/test_1; ./a.out < stdin'
+
+~ local stdout 
+Please enter a string: 
+MOOOOOOO
+
+TEST
+{:file_path=>"run/test_cases/c++/test_1/test.cpp", :args=>nil, :redirect_file_path=>"run/test_cases/c++/test_1/stdin", :make_target=>nil, :user_id=>"", :access_token=>"", :type=>"temp", "name"=>"51421a9ef5c7ba436d301b4a06d68fd7df843582", :stdin=>nil}
+
+~ cde stdout
+Please enter a string: 
+MOOOOOOO
+
+
+~ cde stderr
+
+
+~ RESULTS
+run/test_cases/c++/test_1 => 1/1 PASSED
+
+TEST
+{:file_path=>"run/test_cases/c++/test_1/test.cpp", :args=>nil, :make_target=>nil, :user_id=>"", :access_token=>"", :type=>"temp", "name"=>"51421a9ef5c7ba436d301b4a06d68fd7df843582", :stdin=>nil}
+Inputting: MOOOOOOO
+
+~ cde stdout
+Please enter a string: 
+MOOOOOOO
+
+
+~ cde stderr
+
+
+~ RESULTS
+run/test_cases/c++/test_1 => 1/1 PASSED
+
+=====
+
+- DETECTED TESTS
+run/test_cases/c
+
+TESTING run/test_cases/c/test_2
+
+DESCRIPTION Testing makefile, args, and polling
+
+~ compiling
+make
+
+CONTROL
+~ command
+sh -c 'cd run/test_cases/c/test_2; ./vm ./sleep.so'
+
+~ local stdout 
+Going to sleep for 10 ticks
+Awake
+Goodbye
+
+TEST
+{:file_path=>"run/test_cases/c/test_2/Makefile", :args=>"./sleep.so", :redirect_file_path=>"", :make_target=>"vm", :user_id=>"", :access_token=>"", :type=>"temp", "name"=>"51421a9ef5c7ba436d301b4a06d68fd7df843582", :stdin=>nil}
+
+~ cde stdout
+Going to sleep for 10 ticks
+Awake
+Goodbye
+
+
+~ cde stderr
+
+
+TEST
+{:file_path=>"run/test_cases/c/test_2/Makefile", :args=>"./sleep.so", :redirect_file_path=>"", :make_target=>"vm", :user_id=>"", :access_token=>"", :type=>"temp", "name"=>"51421a9ef5c7ba436d301b4a06d68fd7df843582", :stdin=>nil}
+
+~ cde stdout
+Going to sleep for 10 ticks
+Awake
+Goodbye
+
+
+~ cde stderr
+
+
+~ RESULTS
+run/test_cases/c/test_2 => 2/2 PASSED
+
+~ compiling
+make
+
+CONTROL
+~ command
+sh -c 'cd run/test_cases/c/test_2; ./vm ./file.so'
+
+~ local stdout 
+VMMain opening test.txt
+VMMain VMFileOpen returned 3
+VMMain writing file
+VMMain VMFileWrite returned 13
+VMMain seeking file
+VMMain VMFileSeek offset at 6
+VMMain reading file
+VMMain VMFileRead returned 7
+VMMain read in "world!
+"
+VMMain closing file
+Goodbye
+
+TEST
+{:file_path=>"run/test_cases/c/test_2/Makefile", :args=>"./file.so", :redirect_file_path=>"", :make_target=>"vm", :user_id=>"", :access_token=>"", :type=>"temp", "name"=>"51421a9ef5c7ba436d301b4a06d68fd7df843582", :stdin=>nil}
+
+~ cde stdout
+VMMain opening test.txt
+VMMain VMFileOpen returned 24
+VMMain writing file
+VMMain VMFileWrite returned 13
+VMMain seeking file
+VMMain VMFileSeek offset at -1
+VMMain reading file
+VMMain VMFileRead returned 128
+VMMain read in ""
+VMMain closing file
+Goodbye
+
+
+~ cde stderr
+
+
+TEST
+{:file_path=>"run/test_cases/c/test_2/Makefile", :args=>"./file.so", :redirect_file_path=>"", :make_target=>"vm", :user_id=>"", :access_token=>"", :type=>"temp", "name"=>"51421a9ef5c7ba436d301b4a06d68fd7df843582", :stdin=>nil}
+
+~ cde stdout
+VMMain opening test.txt
+VMMain VMFileOpen returned 24
+VMMain writing file
+VMMain VMFileWrite returned 13
+VMMain seeking file
+VMMain VMFileSeek offset at -1
+VMMain reading file
+VMMain VMFileRead returned 128
+VMMain read in ""
+VMMain closing file
+Goodbye
+
+
+~ cde stderr
+
+
+~ RESULTS
+run/test_cases/c/test_2 => 0/2 PASSED
+
+TESTING run/test_cases/c/test_1
+
+DESCRIPTION Testing basic no args or inputs run
+
+~ compiling
+sh -c 'cd run/test_cases/c/test_1; gcc -Wall test.c'
+
+CONTROL
+~ command
+sh -c 'cd run/test_cases/c/test_1; ./a.out'
+
+~ local stdout 
+hi
+
+TEST
+{:file_path=>"run/test_cases/c/test_1/test.c", :args=>nil, :redirect_file_path=>"", :make_target=>nil, :user_id=>"", :access_token=>"", :type=>"temp", "name"=>"51421a9ef5c7ba436d301b4a06d68fd7df843582", :stdin=>nil}
+
+~ cde stdout
+hi
+
+
+~ cde stderr
+
+
+~ RESULTS
+run/test_cases/c/test_1 => 1/1 PASSED
+
+=====
+
