@@ -1,0 +1,7 @@
+{
+	"description" : "Testing running java program with args",
+	"main" : "/HelloWorld.java",
+	"test" : "HelloWorld",
+	"language" : "java",
+	"args" : ["100"]
+}

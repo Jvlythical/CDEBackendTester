@@ -1,6 +1,8 @@
 {
+	"description" : "Testing user input",
 	"main" : "/test.py",
 	"inputs" : ["stdin"],
 	"test" : "test.py",
-	"language" : "python"
+	"language" : "python",
+	"trials" : 1
 }

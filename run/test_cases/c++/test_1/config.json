@@ -1,0 +1,7 @@
+{
+	"description" : "Testing c++ with input file",
+	"main" : "/test.cpp",
+	"test" : "a.out",
+	"language" : "c++",
+	"inputs" : ["stdin"]
+}

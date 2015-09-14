@@ -1,0 +1,6 @@
+{
+	"description" : "Testing basic no args or inputs run",
+	"main" : "/test.c",
+	"test" : "a.out",
+	"language" : "c"
+}

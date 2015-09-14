@@ -12,10 +12,12 @@ module CDETester
 		@debug = options['verbose'] || false
 	end
 
-	def self.test_run(cname, languages, options = [])
+	def self.test_run(cname, run_config, options = [])
 		
 		self.configure(options)
-
+		
+		languages = run_config['languages']
+		ignore = run_config['ignore']
 		out = ViewRender.new
 		test_cases_path = 'run/test_cases'
 
@@ -36,6 +38,9 @@ module CDETester
 		
 		# Test each suite located in test_cases_path
 		for suite in suites
+			
+			# Check if the suite should be ignored
+			next if ignore.include? File.basename(suite)
 
 			# Get a tests in the suite
 			# e.g. test_cases has a python suite, c suite, etc...
@@ -58,12 +63,28 @@ module CDETester
 				# Test case, then continue
 				begin
 					config, inputs, args = RunTester.trampoline(test)
+					
+					# Check to see if this test
+					# should be run, i.e. client can specify
+					# to skip this test in their config.json
+					skip = config['skip'] || false
+					if skip
+						out.print_skip(test)
+						next
+					end
+
+					description = config['description']
+					out.print_description(description) if !description.nil?
 				rescue => err
 					out.print_err(err)
 					next
 				end
 
 				len = (inputs.length > args.length ? inputs.length : args.length)
+
+				# Ensure that the loop will iterate once
+				# That way inputs/args will be optional
+				len = (len == 0 ? 1 : len)
 				
 				# Iterate through different input/arg 
 				# cases that the client has provided
@@ -101,13 +122,15 @@ module CDETester
 					# simulate how a user would 
 					# enter inputs
 					input_ar = []
+					input_file = ''
+
 					if !inputs[i].nil?
-						input = File.join(test, inputs[i]) 
+						input_file = File.join(test, inputs[i]) 
 						
 						# Read inputs from file
 						# and package them for running
-						if File.exist? input
-							fp = File.open(input, 'r')
+						if File.exist? input_file
+							fp = File.open(input_file, 'r')
 							data = fp.read
 							input_ar = data.split("\n")
 
@@ -119,13 +142,27 @@ module CDETester
 					RunTester.params({
 						:file_path => File.join(test, config['main']),
 						:args => args[i],
-						:redirect_file_path => input || '',
+						:redirect_file_path => input_file || '',
 						:make_target => config['make']
 					})
-
-					res = RunTester.run_test_stdin(input_ar, 1)
 					
+					trials = config['trials'] || 1
+					res = RunTester.run_test_stdin([], trials)
 					out.print_result(test, res)
+
+					# If input_ar, try simulating 
+					# user stdin as well
+					# Interesting questions is what happens
+					# when user provides a input file and stdin? <<< Test this
+					if input_ar.length > 0
+						RunTester.params({
+							:file_path => File.join(test, config['main']),
+							:args => args[i],
+							:make_target => config['make']
+						})
+						res = RunTester.run_test_stdin(input_ar, trials)
+						out.print_result(test, res)
+					end
 				end # for i in 0...len
 
 			end # for test in tests
@@ -145,7 +182,7 @@ module CDETester
 		end
 
 		def detected_tests(tests)
-			puts 'DETECTED TESTS'
+			puts '- DETECTED TESTS'
 			puts tests
 			puts ''
 		end
@@ -167,7 +204,7 @@ module CDETester
 		end
 
 		def print_result(test, res)
-			puts 'RESULTS'
+			puts '~ RESULTS'
 			puts test + ' => ' + res
 			puts ''
 		end
@@ -180,6 +217,16 @@ module CDETester
 		def print_exit(err)
 			puts 'INVALID CONFIGURATION'
 			puts err
+			puts ''
+		end
+
+		def print_description(description)
+			puts 'DESCRIPTION ' +  description
+			puts ''
+		end
+
+		def print_skip(test)
+			puts 'SKIPPING ' + test
 			puts ''
 		end
 

@@ -1,7 +1,9 @@
 {
+	"description" : "Testing makefile, args, and polling",
 	"main" : "/Makefile",
-	"args" : ["./sleep.so"],
+	"args" : ["./sleep.so", "./file.so"],
 	"test" : "vm",
 	"make" : "vm",
-	"language" : "c"
+	"language" : "c",
+	"trials" : 2
 }

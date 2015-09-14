@@ -22,10 +22,10 @@ def main
 	end
 	
 	cname = config['container']
-	languages = config['languages']
+	run_config = config['run']
 	options = config['options'] 
 
-	CDETester.test_run(cname, languages, options)
+	CDETester.test_run(cname, run_config, options)
 
 end
 

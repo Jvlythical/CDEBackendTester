@@ -6,7 +6,8 @@ Purpose:
 
 Getting Started:
 	1. Edit the config.json file to match your local environment
-	2. All you need to do next is run driver.rb to test the CDE backend
+	2. Upload the run folder to public container in cumulus.cs.ucdavis.edu
+	3. All you need to do next is run driver.rb to test the CDE backend
 
 Required JSON Format:
 	{

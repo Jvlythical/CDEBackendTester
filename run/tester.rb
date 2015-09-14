@@ -81,7 +81,7 @@ module RunTester
 				stdout = output['stdout']
 			end
 
-			print_cde_out(stdout) if @debug
+			out.print_cde_out(stdout) if @debug
 				
 			# If output equals expected
 			# then increment the success count
@@ -155,7 +155,7 @@ module RunTester
 		stdout.encode('UTF-16', :invalid => :replace, :undefined => :replace, replace: "")
 
 		@expect = stdout
-		out.print_control(stdout, stderr) if @debug
+		out.print_control_out(cmd, stdout, stderr) if @debug
 	end
 
 	def self.get_config(dir_path)
@@ -179,6 +179,9 @@ module RunTester
 
 	def self.compile(dir_path, compiler, file_name)
 		
+		out = ViewRender.new
+		file_name = File.basename(file_name)
+
 		if File.exist? File.join(dir_path, 'Makefile')
 			cmd = 'make'
 		else
@@ -186,19 +189,19 @@ module RunTester
 		end
 
 		stdout, stderr, status = Open3.capture3(cmd)
-
+		out.print_compile(cmd) if @debug
 	end	
 
 	class ViewRender
 		
-		def print_control_out(stdout, stderr)
+		def print_control_out(cmd, stdout, stderr)
 			puts "CONTROL"
 			puts '~ command'
 			puts cmd 
 			puts ''
 			
 			if stdout.length != 0
-				puts '~ stdout '
+				puts '~ local stdout '
 				puts stdout
 				puts ''
 			end
@@ -222,7 +225,13 @@ module RunTester
 		def print_cde_out(output)
 			puts ''
 			puts '~ cde stdout'
-			puts stdout
+			puts output
+			puts ''
+		end
+
+		def print_compile(cmd)
+			puts '~ compiling'
+			puts cmd
 			puts ''
 		end
 
