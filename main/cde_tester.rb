@@ -8,14 +8,25 @@ module CDETester
 
 	@debug = true
 
-	def self.test_run(cname, languages)
+	def self.configure(options) 
+		@debug = options['verbose'] || false
+	end
+
+	def self.test_run(cname, languages, options = [])
 		
+		self.configure(options)
+
 		out = ViewRender.new
 		test_cases_path = 'run/test_cases'
 
 		# Initialize the tester
 		# NOTE: must provide a public CDE name
-		RunTester.init(cname)
+
+		begin 
+			RunTester.init(cname, options['verbose+'])
+		rescue => err
+			out.print_exit(err)
+		end
 		
 		suites = Dir[File.join(test_cases_path, '*')]
 		
@@ -35,7 +46,7 @@ module CDETester
 			# If no tests, continue
 			# i.e. no subfolders in the suite
 			if tests.length == 0
-				out.continue() 
+				out.print_err('FAILURE: No cases found for ' + suite) 
 				next
 			end
 
@@ -114,12 +125,12 @@ module CDETester
 
 					res = RunTester.run_test_stdin(input_ar, 1)
 					
-					out.print_result(test, res) if @debug
+					out.print_result(test, res)
 				end # for i in 0...len
 
 			end # for test in tests
 			
-			out.print_divider() if @debug
+			out.print_divider() 
 
 		end # for suite in suites
 	end
@@ -163,6 +174,12 @@ module CDETester
 
 		def print_divider()
 			puts '====='
+			puts ''
+		end
+
+		def print_exit(err)
+			puts 'INVALID CONFIGURATION'
+			puts err
 			puts ''
 		end
 

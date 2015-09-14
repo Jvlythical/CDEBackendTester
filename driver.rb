@@ -21,8 +21,11 @@ def main
 		fp.close
 	end
 	
-	cname = '51421a9ef5c7ba436d301b4a06d68fd7df843582'
-	CDETester.test_run(cname, config)
+	cname = config['container']
+	languages = config['languages']
+	options = config['options'] 
+
+	CDETester.test_run(cname, languages, options)
 
 end
 

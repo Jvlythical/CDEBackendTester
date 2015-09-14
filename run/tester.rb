@@ -1,8 +1,8 @@
-#!/usr/bin/env ruby
 
 require 'open3'
-require 'net/http'
 require 'json'
+
+require_relative '../main/http.rb'
 
 # USAGE
 # Place test_cases in the same directory
@@ -11,11 +11,13 @@ require 'json'
 # Assumes that upload file works correctly
 
 # Tester must provide compile url and a 
-# temp container's name
+# temp container's name in config.json
 
 module RunTester
 	
-	@run= 'http://localhost:3000/compile/compile_file'
+	include Http
+	
+	@run = 'http://localhost:3000/compile/compile_file'
 	@poll = 'http://localhost:3000/compile/poll'
 
 	@debug = true
@@ -27,13 +29,18 @@ module RunTester
 		:type => 'temp'
 	}
 
-	def self.init(cname)
+	def self.init(cname, debug = false)
+		raise "Invalid container." if cname.nil?
+			
 		@const_params['name'] = cname
+		@debug = debug
 	end
 	
 	# Driver for testing the program
 	def self.run_test_stdin(stdin, n)
 		
+		out = ViewRender.new
+
 		success = []
 		failure = []
 
@@ -44,48 +51,45 @@ module RunTester
 			@params[:stdin] = nil
 
 			# Initial run
-			out = self.send_post_request(@run, @params)
+			output = Http.send_post_request(@run, @params)
+			output = JSON.parse(output)
 			
 			# Generate output
-			output = out['stdout']
+			stdout = output['stdout']
 			
-			if @debug
-				puts 'TEST'
-				puts @params
-			end
+			out.print_params(@params) if @debug
 
 			for input in stdin
 				@params[:stdin] = input
 
-				if @debug
-					puts 'Inputing: ' + input
-				end
+				out.print_input(input) if @debug
 
-				out = self.send_post_request(@run, @params)
+				output = Http.send_post_request(@run, @params)
+				output = JSON.parse(output)
 
-				output = out['stdout']
+				stdout = output['stdout']
 			end
 			
 			# If the program hasn't finished
 			# And all the inputs have been given, then poll
-			if out['status'] != 1
+			if output['status'] != 1
 				sleep 1
-				out = self.send_get_request(@poll, @const_params)
-				output = out['stdout']
+
+				output = Http.send_get_request(@poll, @const_params)
+				output = JSON.parse(output)
+
+				stdout = output['stdout']
 			end
 
-			if @debug
-				puts output
-				puts ''
-			end
-
+			print_cde_out(stdout) if @debug
+				
 			# If output equals expected
-			# then inrement the success count
+			# then increment the success count
 			# else increment the failure count
-			if output.strip != @expect.strip
-				failure.push(output)
+			if stdout.strip != @expect.strip
+				failure.push(stdout)
 			else
-				success.push(output)
+				success.push(stdout)
 			end
 
 		end
@@ -111,10 +115,10 @@ module RunTester
 		# Requirements
 		config = self.get_config(dir_path)
 
-		raise 'FAILURE: Missing config.' if config.nil?
-		raise 'FAILURE: Invalid main.' if config['main'].nil?
-		raise 'FAILURE: Invalid test.' if config['test'].nil?
-		raise 'FAILURE: Invalid language.' if config['language'].nil?
+		raise 'FAILURE: Missing config for ' + dir_path if config.nil?
+		raise 'FAILURE: Invalid main for ' + dir_path if config['main'].nil?
+		raise 'FAILURE: Invalid test for ' + dir_path if config['test'].nil?
+		raise 'FAILURE: Invalid language for ' + dir_path if config['language'].nil?
 		
 		inputs = []
 		args = []
@@ -140,6 +144,8 @@ module RunTester
 
 	def self.expect(dir_path, test, args, input)
 		
+		out = ViewRender.new
+
 		test += ' ' + args if !args.nil?
 		test += ' < ' + input if !input.nil?
 
@@ -148,26 +154,8 @@ module RunTester
 		stdout, stderr, status = Open3.capture3(cmd)
 		stdout.encode('UTF-16', :invalid => :replace, :undefined => :replace, replace: "")
 
-		if @debug
-			puts "CONTROL"
-			puts '~ command'
-			puts cmd 
-			puts ''
-			
-			if stdout.length != 0
-				puts '~ stdout '
-				puts stdout
-				puts ''
-			end
-
-			if stderr.length != 0
-				puts '~ stderr '
-				puts stderr 
-				puts ''
-			end
-		end
-
 		@expect = stdout
+		out.print_control(stdout, stderr) if @debug
 	end
 
 	def self.get_config(dir_path)
@@ -201,29 +189,43 @@ module RunTester
 
 	end	
 
-private
-
-	def self.send_post_request(route, params)
-		res = Net::HTTP.post_form(URI(route), params)
+	class ViewRender
 		
-		raise res.code.to_s if res.code != "200"
+		def print_control_out(stdout, stderr)
+			puts "CONTROL"
+			puts '~ command'
+			puts cmd 
+			puts ''
+			
+			if stdout.length != 0
+				puts '~ stdout '
+				puts stdout
+				puts ''
+			end
 
-		return JSON.parse(res.body)
-	end
-
-	def self.send_get_request(route, params)
-
-		route += '?'
-		params.each do |key, value|
-			route += (key.to_s + '=' + value.to_s + '&')
+			if stderr.length != 0
+				puts '~ stderr '
+				puts stderr 
+				puts ''
+			end
 		end
-		route = route[0, route.length - 1]
 
-		res = Net::HTTP.get_response(URI(route))
-		
-		raise res.code.to_s if res.code != "200"
+		def print_params(params)
+			puts 'TEST'
+			puts params
+		end
 
-		return JSON.parse(res.body)
+		def print_input(input)
+			puts 'Inputting: ' + input
+		end
+
+		def print_cde_out(output)
+			puts ''
+			puts '~ cde stdout'
+			puts stdout
+			puts ''
+		end
+
 	end
 
 end
