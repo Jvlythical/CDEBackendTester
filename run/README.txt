@@ -13,6 +13,3 @@ How does the tester work?
 
 	3. The tester will compare the control output and the server's output
 
-How to provide a test case?
-	1. 
-
