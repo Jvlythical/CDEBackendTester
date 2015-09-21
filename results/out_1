@@ -57,15 +57,17 @@ TEST
 {:file_path=>"run/test_cases/python/test_1/test.py", :args=>nil, :redirect_file_path=>"run/test_cases/python/test_1/stdin", :make_target=>nil, :user_id=>"", :access_token=>"", :type=>"temp", "name"=>"bcd3e1a92fcd289cb04ac34727c8c936938d4912", :stdin=>nil}
 
 ~ cde stdout
+d86d7aba4fbc        jvlythical/standard:latest   "sh -c 'cd /root/run   1 seconds ago       Up Less than a second   22/tcp              bcd3e1a92fcd289cb04ac34727c8c936938d4912   
 HIIIHI
 HIIIBYE
+bcd3e1a92fcd289cb04ac34727c8c936938d4912
 
 
 ~ cde stderr
 
 
 ~ RESULTS
-run/test_cases/python/test_1 => 1/1 PASSED
+run/test_cases/python/test_1 => 0/1 PASSED
 
 TEST
 {:file_path=>"run/test_cases/python/test_1/test.py", :args=>nil, :make_target=>nil, :user_id=>"", :access_token=>"", :type=>"temp", "name"=>"bcd3e1a92fcd289cb04ac34727c8c936938d4912", :stdin=>nil}
@@ -109,17 +111,19 @@ TEST
 {:file_path=>"run/test_cases/c++/test_2/test.cpp", :args=>"1 2", :redirect_file_path=>"run/test_cases/c++/test_2/stdin", :make_target=>nil, :user_id=>"", :access_token=>"", :type=>"temp", "name"=>"bcd3e1a92fcd289cb04ac34727c8c936938d4912", :stdin=>nil}
 
 ~ cde stdout
+ca5eb4257fd3        jvlythical/standard:latest   "sh -c 'cd /root/run   1 seconds ago       Up Less than a second   22/tcp              bcd3e1a92fcd289cb04ac34727c8c936938d4912   
 Please enter a string: 
 MOOOOOOO
 3
 1
+bcd3e1a92fcd289cb04ac34727c8c936938d4912
 
 
 ~ cde stderr
 
 
 ~ RESULTS
-run/test_cases/c++/test_2 => 1/1 PASSED
+run/test_cases/c++/test_2 => 0/1 PASSED
 
 TEST
 {:file_path=>"run/test_cases/c++/test_2/test.cpp", :args=>"1 2", :make_target=>nil, :user_id=>"", :access_token=>"", :type=>"temp", "name"=>"bcd3e1a92fcd289cb04ac34727c8c936938d4912", :stdin=>nil}
@@ -303,15 +307,14 @@ TEST
 
 ~ cde stdout
 VMMain opening test.txt
-VMMain VMFileOpen returned 3
+VMMain VMFileOpen returned 24
 VMMain writing file
 VMMain VMFileWrite returned 13
 VMMain seeking file
-VMMain VMFileSeek offset at 6
+VMMain VMFileSeek offset at -1
 VMMain reading file
-VMMain VMFileRead returned 7
-VMMain read in "world!
-"
+VMMain VMFileRead returned 128
+VMMain read in ""
 VMMain closing file
 Goodbye
 
@@ -320,7 +323,7 @@ Goodbye
 
 
 ~ RESULTS
-run/test_cases/c/test_2 => 2/2 PASSED
+run/test_cases/c/test_2 => 1/2 PASSED
 
 TESTING run/test_cases/c/test_1
 
@@ -351,4 +354,4 @@ run/test_cases/c/test_1 => 1/1 PASSED
 
 =====
 
-Finish Time 46.510751243
+Finish Time 68.460195034

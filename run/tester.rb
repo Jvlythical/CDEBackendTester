@@ -17,8 +17,8 @@ module RunTester
 	
 	include Http
 	
-	@run = 'http://localhost:3000/compile/compile_file'
-	@poll = 'http://localhost:3000/compile/poll'
+	@run = '/compile/compile_file'
+	@poll = '/compile/poll'
 
 	@debug = true
 
@@ -31,9 +31,12 @@ module RunTester
 		:type => 'temp'
 	}
 
-	def self.init(cname, debug = false)
+	def self.init(host, cname, debug = false)
 		raise "Invalid container." if cname.nil?
-			
+		
+		@host = host
+		@run = File.join(host, @run)
+		@poll = File.join(host, @poll)
 		@const_params['name'] = cname
 		@debug = debug
 	end
@@ -70,7 +73,7 @@ module RunTester
 				output = Http.send_post_request(@run, @params)
 				output = JSON.parse(output)
 
-				stdout = output['stdout']
+				stdout += output['stdout']
 				stderr = output['stderr']
 			end
 			
@@ -82,7 +85,7 @@ module RunTester
 				output = Http.send_get_request(@poll, @const_params)
 				output = JSON.parse(output)
 
-				stdout = output['stdout']
+				stdout = output['stdout'] if output['stdout'].length > 0
 				stderr = output['stderr']
 			end
 

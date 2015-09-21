@@ -109,17 +109,19 @@ TEST
 {:file_path=>"run/test_cases/c++/test_2/test.cpp", :args=>"1 2", :redirect_file_path=>"run/test_cases/c++/test_2/stdin", :make_target=>nil, :user_id=>"", :access_token=>"", :type=>"temp", "name"=>"bcd3e1a92fcd289cb04ac34727c8c936938d4912", :stdin=>nil}
 
 ~ cde stdout
+1e192a613ea6        jvlythical/standard:latest   "sh -c 'cd /root/run   1 seconds ago       Up Less than a second   22/tcp              bcd3e1a92fcd289cb04ac34727c8c936938d4912   
 Please enter a string: 
 MOOOOOOO
 3
 1
+bcd3e1a92fcd289cb04ac34727c8c936938d4912
 
 
 ~ cde stderr
 
 
 ~ RESULTS
-run/test_cases/c++/test_2 => 1/1 PASSED
+run/test_cases/c++/test_2 => 0/1 PASSED
 
 TEST
 {:file_path=>"run/test_cases/c++/test_2/test.cpp", :args=>"1 2", :make_target=>nil, :user_id=>"", :access_token=>"", :type=>"temp", "name"=>"bcd3e1a92fcd289cb04ac34727c8c936938d4912", :stdin=>nil}
@@ -351,4 +353,4 @@ run/test_cases/c/test_1 => 1/1 PASSED
 
 =====
 
-Finish Time 46.510751243
+Finish Time 74.613937322

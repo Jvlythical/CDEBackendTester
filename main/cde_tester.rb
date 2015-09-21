@@ -1,6 +1,5 @@
 
-require 'require_all'
-require_all 'run'
+require_relative '../run/tester.rb'
 
 module CDETester
 
@@ -14,18 +13,21 @@ module CDETester
 
 	def self.test_run(cname, run_config, options = [])
 		
+		test_cases_path = 'run/test_cases'
+
 		self.configure(options)
 		
 		languages = run_config['languages']
 		ignore = run_config['ignore']
+		host = run_config['host'] || 'localhost:3000'
+
 		out = ViewRender.new
-		test_cases_path = 'run/test_cases'
 
 		# Initialize the tester
 		# NOTE: must provide a public CDE name
 
 		begin 
-			RunTester.init(cname, options['verbose+'])
+			RunTester.init(host, cname, options['verbose+'])
 		rescue => err
 			out.print_exit(err)
 		end

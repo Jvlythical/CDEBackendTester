@@ -1,6 +1,7 @@
 {
-	"container" : "51421a9ef5c7ba436d301b4a06d68fd7df843582",
+	"container" : "bcd3e1a92fcd289cb04ac34727c8c936938d4912",
 	"run" : {
+		"host" : "http://localhost:3000",
 		"ignore" : [],
 		"languages" : {
 			"java" : {

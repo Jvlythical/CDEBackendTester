@@ -282,15 +282,14 @@ TEST
 
 ~ cde stdout
 VMMain opening test.txt
-VMMain VMFileOpen returned 3
+VMMain VMFileOpen returned 24
 VMMain writing file
 VMMain VMFileWrite returned 13
 VMMain seeking file
-VMMain VMFileSeek offset at 6
+VMMain VMFileSeek offset at -1
 VMMain reading file
-VMMain VMFileRead returned 7
-VMMain read in "world!
-"
+VMMain VMFileRead returned 128
+VMMain read in ""
 VMMain closing file
 Goodbye
 
@@ -320,7 +319,7 @@ Goodbye
 
 
 ~ RESULTS
-run/test_cases/c/test_2 => 2/2 PASSED
+run/test_cases/c/test_2 => 1/2 PASSED
 
 TESTING run/test_cases/c/test_1
 
@@ -351,4 +350,4 @@ run/test_cases/c/test_1 => 1/1 PASSED
 
 =====
 
-Finish Time 46.510751243
+Finish Time 45.05758857
